@@ -10,8 +10,18 @@ var io = require("socket.io")(http);
 app.use(express.static(__dirname+'/public'));
 
 // io.on listens for events
-io.on("connection",function(){
+io.on("connection",function(socket){
   console.log("User is connected");
+  socket.emit("message",{
+    text:"Welcome to Chat Appliction !"
+  });
+
+  // listen for client message
+  socket.on("message",function (message) {
+     console.log("Message Received : " + message.text);
+     //broadcast to all users except for sender
+     socket.broadcast.emit("message",message);
+  });
 });
 http.listen(PORT,function(){
   console.log("server started");
