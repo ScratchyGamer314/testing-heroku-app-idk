@@ -8,6 +8,10 @@
  socket.on("message", function(message) {
    console.log("New Message !");
    console.log(message.text);
+   // insert messages in container
+   var momentTimestamp = moment.utc(message.timestamp).local().format("h:mm a");
+   //$(".messages").append($('<p>').text(message.text));
+   $(".messages").append("<p><strong>"+momentTimestamp+"</strong>"+ " :"+ message.text +"</p>");
  });
 
  // handles submitting of new message
