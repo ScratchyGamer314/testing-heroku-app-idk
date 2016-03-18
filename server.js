@@ -6,6 +6,8 @@ var http = require("http").Server(app);
 //moment js
 var moment = require("moment");
 
+var clientInfo = {};
+
 //socket io module
 var io = require("socket.io")(http);
 
@@ -15,6 +17,19 @@ app.use(express.static(__dirname+'/public'));
 // io.on listens for events
 io.on("connection",function(socket){
   console.log("User is connected");
+
+  // for private chat
+  socket.on('joinRoom',function(req){
+    clientInfo[socket.id] = req;
+    socket.join(req.room);
+    //broadcast new user joined room
+    socket.broadcast.to(req.room).emit("message",{
+      name:"System",
+      text:req.name + ' has joined',
+      timestamp:moment().valueOf()
+    });
+
+  });
 
   socket.emit("message",{
     text:"Welcome to Chat Appliction !",
@@ -27,7 +42,10 @@ io.on("connection",function(socket){
      console.log("Message Received : " + message.text);
      //broadcast to all users except for sender
      message.timestamp = moment().valueOf();
-     socket.broadcast.emit("message",message);
+     //socket.broadcast.emit("message",message);
+     // now message should be only sent to users who are in same room
+     socket.broadcast.to(clientInfo[socket.id].room).emit("message",message);
+
   });
 });
 http.listen(PORT,function(){
