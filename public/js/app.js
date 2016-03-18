@@ -22,10 +22,13 @@
    console.log(message.text);
    // insert messages in container
    var $messages = $(".messages");
+   var $message = $('<li class = "list-group-item"></li>');
+
    var momentTimestamp = moment.utc(message.timestamp).local().format("h:mm a");
    //$(".messages").append($('<p>').text(message.text));
-   $messages.append("<strong>" + momentTimestamp + " " + message.name + "</strong>");
-   $messages.append("<p>" + message.text + "</p>");
+   $message.append("<strong>" + momentTimestamp + " " + message.name + "</strong>");
+   $message.append("<p>" + message.text + "</p>");
+   $messages.append($message);
  });
 
  // handles submitting of new message
