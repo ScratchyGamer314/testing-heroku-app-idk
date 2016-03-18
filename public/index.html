@@ -8,17 +8,50 @@
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.1.0/octicons.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 
     <!--[if lt IE 9]> <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script> <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script> <![endif]-->
   </head>
   <body>
-    <h2> Join Chat !</h2>
-    <form class="" action="/chat.html">
-      <label for="name"> Display Name :</label>
-      <input type="text" name="name" id="name"/>
-      <label for="room"> Enter Room : </label>
-      <input type="text" name="room" id="room"/>
-      <input type="submit" value = "Join Chat" />
-    </form>
+    <div class="vertical-center">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4 well">
+            <h2>
+              Join Chat !</h2>
+            <form action="/chat.html" class="">
+
+              <div class="form-group">
+                <label for="name">
+                  Display Name :</label>
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-user"></i>
+                  </span>
+                  <input class="form-control" id="name" name="name" placeholder="" type="text">
+                </div>
+
+              </div>
+
+              <div class="form-group">
+                <label for="room">Enter Room :</label>
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-comment"></i>
+                  </span>
+                  <input class="form-control" id="room" name="room" placeholder="" type="text"/>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input class="btn btn-primary btn-block" type="submit" value="Join Chat"/>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
