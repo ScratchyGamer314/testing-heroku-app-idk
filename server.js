@@ -18,6 +18,24 @@ app.use(express.static(__dirname+'/public'));
 io.on("connection",function(socket){
   console.log("User is connected");
 
+  //for disconnection
+  socket.on("disconnect" , function (){
+    var userdata = clientInfo[socket.id];
+    if (typeof(userdata !== undefined)) {
+      socket.leave(userdata.room); // leave the room
+      //broadcast leave room
+      socket.broadcast.to(userdata.room).emit("message", {
+        text: userdata.name + " has left",
+        name:"System",
+        timestamp: moment().valueOf()
+      });
+
+      // delete user data-
+      delete clientInfo[socket.id];
+
+    }
+  });
+
   // for private chat
   socket.on('joinRoom',function(req){
     clientInfo[socket.id] = req;
