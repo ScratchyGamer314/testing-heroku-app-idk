@@ -54,7 +54,7 @@ io.on("connection", function(socket) {
     var userdata = clientInfo[socket.id];
     if (typeof(userdata !== undefined)) {
       socket.leave(userdata.room); // leave the room
-      //broadcast leave room to only memebers of same room 
+      //broadcast leave room to only memebers of same room
       socket.broadcast.to(userdata.room).emit("message", {
         text: userdata.name + " has left",
         name: "System",
@@ -98,6 +98,7 @@ io.on("connection", function(socket) {
       //socket.broadcast.emit("message",message);
       // now message should be only sent to users who are in same room
       socket.broadcast.to(clientInfo[socket.id].room).emit("message", message);
+      //socket.emit.to(clientInfo[socket.id].room).emit("message", message);
     }
 
   });

@@ -29,16 +29,50 @@
    $message.append("<strong>" + momentTimestamp + " " + message.name + "</strong>");
    $message.append("<p>" + message.text + "</p>");
    $messages.append($message);
+   // handle autoscroll
+   // manage autoscroll
+    var obj = $("ul.messages.list-group");
+    var offset = obj.offset();
+    var scrollLength = obj[0].scrollHeight;
+  //  offset.top += 20;
+    $("ul.messages.list-group").animate({
+    scrollTop: scrollLength - offset.top
+    });
+
  });
 
  // handles submitting of new message
  var $form = $("#messageForm");
- var $message = $form.find('input[name=message]');
+ var $message1 = $form.find('input[name=message]');
  $form.on("submit", function(event) {
    event.preventDefault();
+   var msg = $message1.val();
+   //prevent js injection attack
+   msg = msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+   if ( msg === "") return -1; //empty messages cannot be sent
+
    socket.emit("message", {
-     text: $message.val(),
+     text: msg,
      name: name
    });
-   $message.val('');
+   // show user messageForm
+   var $messages = $(".messages");
+   var $message = $('<li class = "list-group-item"></li>');
+
+   var momentTimestamp = moment().format("h:mm a");
+  // $(".messages").append($('<p>').text(message.text));
+   $message.append("<strong>" + momentTimestamp + " " + name + "</strong>");
+   //$message.append("<p>" + $message1.val()+ "</p>");
+   $message.append($("<p>",{class:"mymessages",text:$message1.val()}));
+   $messages.append($message);
+   $message1.val('');
+   // manage autoscroll
+    var obj = $("ul.messages.list-group");
+    var offset = obj.offset();
+    var scrollLength = obj[0].scrollHeight;
+  //  offset.top += 20;
+    $("ul.messages.list-group").animate({
+    scrollTop: scrollLength - offset.top
+    });
+
  });

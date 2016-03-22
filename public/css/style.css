@@ -11,3 +11,14 @@ h1 {
 .messages p {
   margin:6px 0;
 }
+
+.mymessages{
+  text-align: right;
+  color: #2E6D88;
+  font-style: italic;
+}
+
+ul.messages.list-group {
+      max-height: 50vh;
+    overflow-y: scroll;
+}
