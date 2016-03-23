@@ -16,6 +16,31 @@
    });
  });
 
+ // below code is to know when typing is there
+ var timeout;
+
+ function timeoutFunction() {
+   typing = false;
+   //console.log("stopped typing");
+   // socket.emit("typing", false);
+   socket.emit('typing', {
+     text: ""//name + " stopped typing"
+   });
+ }
+ // if key is pressed typing message is seen else auto after 2 sec typing false message is send
+ // TODO : add broadcast event when server receives typing event
+ $('#messagebox').keyup(function() {
+   console.log('happening');
+   typing = true;
+   //console.log("typing typing ....");
+   //socket.emit('typing', 'typing...');
+   socket.emit('typing', {
+      text: name + " is typing ..."
+   });
+   clearTimeout(timeout);
+   timeout = setTimeout(timeoutFunction, 1000);
+ });
+
  // below is the checking for page visibility api
  var hidden, visibilityChange;
  if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
@@ -31,6 +56,13 @@
    hidden = "webkitHidden";
    visibilityChange = "webkitvisibilitychange";
  }
+
+//listening for typing  event
+socket.on("typing",function(message)
+{ //console.log(message.text);
+  $(".typing").text(message.text);
+});
+
 
  //setup for custom events
  socket.on("message", function(message) {

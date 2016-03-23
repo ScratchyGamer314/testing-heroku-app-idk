@@ -80,6 +80,13 @@ io.on("connection", function(socket) {
 
   });
 
+  // to show who is typing Message
+
+  socket.on('typing',function(message)
+  {  // broadcast this message to all users in that room 
+    socket.broadcast.to(clientInfo[socket.id].room).emit("typing", message);
+  });
+
   socket.emit("message", {
     text: "Welcome to Chat Appliction !",
     timestamp: moment().valueOf(),

@@ -22,3 +22,7 @@ ul.messages.list-group {
       max-height: 50vh;
     overflow-y: scroll;
 }
+
+.typing{
+  font-style: italic;
+}
