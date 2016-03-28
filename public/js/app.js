@@ -24,7 +24,7 @@
    //console.log("stopped typing");
    // socket.emit("typing", false);
    socket.emit('typing', {
-     text: ""//name + " stopped typing"
+     text: "" //name + " stopped typing"
    });
  }
  // if key is pressed typing message is seen else auto after 2 sec typing false message is send
@@ -32,10 +32,11 @@
  $('#messagebox').keyup(function() {
    console.log('happening');
    typing = true;
+   $("#icon-type").removeClass();
    //console.log("typing typing ....");
    //socket.emit('typing', 'typing...');
    socket.emit('typing', {
-      text: name + " is typing ..."
+     text: name + " is typing ..."
    });
    clearTimeout(timeout);
    timeout = setTimeout(timeoutFunction, 1000);
@@ -57,11 +58,29 @@
    visibilityChange = "webkitvisibilitychange";
  }
 
-//listening for typing  event
-socket.on("typing",function(message)
-{ //console.log(message.text);
-  $(".typing").text(message.text);
-});
+ //listening for typing  event
+ socket.on("typing", function(message) { //console.log(message.text);
+   $(".typing").text(message.text);
+ });
+
+ socket.on("userSeen", function(msg) {
+
+  // if (msg.user == name) {
+     // read message
+     // show messags only to user who has typied
+     var icon = $("#icon-type");
+     icon.removeClass();
+     icon.addClass("fa fa-check-circle");
+     if (msg.read) {
+       //user read the message
+       icon.addClass("msg-read");
+     } else {
+       // message deleiverd but not read yet
+       icon.addClass("msg-delieverd");
+     }
+     console.log(msg);
+   //}
+ });
 
 
  //setup for custom events
@@ -90,6 +109,20 @@ socket.on("typing",function(message)
    // try notify , only when user has not open chat view
    if (document[hidden]) {
      notifyMe(message);
+     // also notify server that user has not seen messgae
+     var umsg = {
+       text: name + " has not seen message",
+       read: false
+     };
+     socket.emit("userSeen", umsg);
+   } else {
+     // notify  server that user has seen message
+     var umsg = {
+       text: name + " has seen message",
+       read: true,
+       user: name
+     };
+     socket.emit("userSeen", umsg);
    }
  });
 
@@ -147,6 +180,18 @@ socket.on("typing",function(message)
        body: msg.name + ": " + msg.text,
        icon: '/images/apple-icon.png' // optional
      });
+     notification.onclick = function(event) {
+       event.preventDefault();
+       this.close();
+       // assume user would see message so broadcast userSeen event
+       var umsg = {
+         text: name + " has seen message",
+         read: true,
+         user: name
+       };
+       socket.emit("userSeen", umsg);
+       //window.open('http://www.mozilla.org', '_blank');
+     };
    }
    // Otherwise, we need to ask the user for permission
    else if (Notification.permission !== 'denied') {
@@ -157,6 +202,18 @@ socket.on("typing",function(message)
            body: msg.name + ": " + msg.text,
            icon: '/images/apple-icon.png' // optional
          });
+         notification.onclick = function(event) {
+           event.preventDefault();
+           this.close();
+           var umsg = {
+             text: name + " has seen message",
+             read: true,
+             user: name
+           };
+           socket.emit("userSeen", umsg);
+           // assume user would see message so broadcast userSeen event
+           //window.open('http://www.mozilla.org', '_blank');
+         };
        }
      });
    }

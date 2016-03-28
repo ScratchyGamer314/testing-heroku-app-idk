@@ -15,31 +15,28 @@ var io = require("socket.io")(http);
 app.use(express.static(__dirname + '/public'));
 
 // send current users to provided scoket
-function sendCurrentUsers(socket)
-{ // loading current users
+function sendCurrentUsers(socket) { // loading current users
   var info = clientInfo[socket.id];
   var users = [];
-  if (typeof info === 'undefined')
-  {
+  if (typeof info === 'undefined') {
     return;
   }
   // filte name based on rooms
   Object.keys(clientInfo).forEach(function(socketId) {
-    var userinfo  = clientInfo[socketId];
+    var userinfo = clientInfo[socketId];
     // check if user room and selcted room same or not
     // as user should see names in only his chat room
-    if (info.room == userinfo.room)
-    {
+    if (info.room == userinfo.room) {
       users.push(userinfo.name);
     }
 
   });
-   // emit message when all users list
+  // emit message when all users list
 
-  socket.emit("message",{
-    name : "System",
-    text : "Current Users : "+users.join(', '),
-    timestamp : moment().valueOf()
+  socket.emit("message", {
+    name: "System",
+    text: "Current Users : " + users.join(', '),
+    timestamp: moment().valueOf()
   });
 
 }
@@ -82,9 +79,15 @@ io.on("connection", function(socket) {
 
   // to show who is typing Message
 
-  socket.on('typing',function(message)
-  {  // broadcast this message to all users in that room 
+  socket.on('typing', function(message) { // broadcast this message to all users in that room
     socket.broadcast.to(clientInfo[socket.id].room).emit("typing", message);
+  });
+
+  // to check if user seen Message
+  socket.on("userSeen", function(msg) {
+    socket.broadcast.to(clientInfo[socket.id].room).emit("userSeen", msg);
+    //socket.emit("message", msg);
+
   });
 
   socket.emit("message", {
