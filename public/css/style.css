@@ -4,6 +4,9 @@
   display: flex;
   align-items: center;
 }
+.vertical-center .container-fluid {
+  flex-grow:1
+}
 h1 {
   margin: 24px 0;
 }
