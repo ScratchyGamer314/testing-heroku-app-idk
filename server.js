@@ -91,7 +91,7 @@ io.on("connection", function(socket) {
   });
 
   socket.emit("message", {
-    text: "Welcome to Chat Appliction !",
+    text: "Welcome to Chat Application !",
     timestamp: moment().valueOf(),
     name: "System"
   });
