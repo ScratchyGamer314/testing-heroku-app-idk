@@ -91,9 +91,15 @@ io.on("connection", function(socket) {
   });
 
   socket.emit("message", {
-    text: "Welcome to Chat Application !",
+    text: "Welcome to My Chat Application!",
     timestamp: moment().valueOf(),
     name: "System"
+  });
+  
+    socket.emit("message", {
+    text: "To start, share this link to your friends or share the chat room with them. Please type anything in the text box below to start chatting.",
+    timestamp: moment().valueOf(),
+    name: "Tip"
   });
 
   // listen for client message
