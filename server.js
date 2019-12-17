@@ -96,8 +96,6 @@ io.on("connection", function(socket) {
     name: "- System"
   });
   
-  // the current chat room url- - delete if not work
-  var chatroomurl = document.location.href
   
     socket.emit("message", {
     text: "To start, share this link to your friends or share the chat room with them. Please type anything in the text box below to start chatting.",
@@ -105,12 +103,6 @@ io.on("connection", function(socket) {
     name: "- Tip"
   });
 
-  //delete this if does not work
-    socket.emit("message", {
-    text: var chatroomurl,
-    timestamp: moment().valueOf(),
-    name: "- Tip"
-  });
   
   // listen for client message
   socket.on("message", function(message) {
