@@ -109,6 +109,12 @@ io.on("connection", function(socket) {
     timestamp: moment().valueOf(),
     name: "- Tip"
   });
+  
+      socket.emit("message", {
+    text: "Unfortunately, this app does not store logs of previous chat data, so if you close this tab, you'll lose your progress. I tested the code out using mah 2 chromebooks and it seems to work fine. Another thing: because the school blocked notifications, it won't alert you if a message comes up unless if you visit using a home computer.",
+    timestamp: moment().valueOf(),
+    name: "- Admin Message (Zetong)"
+  });
 
   // listen for client message
   socket.on("message", function(message) {
