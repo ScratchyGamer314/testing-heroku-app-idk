@@ -1,11 +1,8 @@
-a {
+{
   "name": "sockets",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "engines": {
-  "node": "12.x"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +11,6 @@ a {
   "dependencies": {
     "express": "^4.13.3",
     "moment": "^2.12.0",
-    "socket.io": ">=2.4.0"
+    "socket.io": "^1.3.7"
   }
 }
