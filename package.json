@@ -1,10 +1,10 @@
-{
+a{
   "name": "sockets",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "engines": {
-  "node": "6.x"
+  "node": "12.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
