@@ -1,1 +1,4 @@
+"dependencies": {
+  "socket.io": ">=2.4.0"
+}
 
